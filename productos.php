@@ -22,10 +22,27 @@
     <input type="text" name="inputNombre" class="form-control">
     <br>
     <label class="form-label">Precio </label>
-    <input type="text" name="inputPrecio" class="form-control">
+    <input type="number" name="inputPrecio" class="form-control">
     <br>
-    <label class="form-label">codigo fabricante </label>
-    <input type="text" name="inputcodigo_fabricante" class="form-control">
+    <label class="form-label">Codigo fabricante </label>
+
+        <!--select para los nombres de fabricantes-->
+        <select name="inputcodigo_fabricante" class="form-select form-select-md" aria-label=".form-select-lg example">
+            <option selected>Abre este menu</option>
+            <?php
+            // importar el archivo de conexion
+            include('connection/connection.php');
+            // variable para listar toda la tabla
+            $consulta = "SELECT * FROM fabricante";
+            // query de conexion  y query de listado
+            $resultado = mysqli_query($connection,$consulta);
+            // mientras haya algo dentro de table, seguira listado
+            while ($fila= mysqli_fetch_array($resultado)){
+
+            ?>
+            <option value="<?php echo $fila["codigo"]?>"><?php echo $fila["nombre"] ?></option>
+            <?php } //cierre del while?>
+    </select>
     </div>
 
     <button type="submit" name="enviar" class="btn btn-primary">Enviar</button>
@@ -41,7 +58,8 @@
                     <th scope="col">Nombre Producto </th>
                     <th scope="col">Precio</th>
                     <th scope="col">Codigo fabricante</th>
-                
+                    <th scope="col">Eliminarr</th>
+                    <th scope="col">Editar</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +68,7 @@
             // importar el archivo de conexion
             include('connection/connection.php');
             // variable para listar toda la tabla
-            $consulta = "SELECT * FROM producto";
+            $consulta = "SELECT producto.codigo, producto.nombre, precio, fabricante.nombre as codigo_fabricante FROM producto INNER JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo";
             // query de conexion  y query de listado
             $resultado = mysqli_query($connection,$consulta);
             // mientras haya algo dentro de table, seguira listado
@@ -62,7 +80,8 @@
                     <td><?php echo $fila["nombre"] ?></td>
                     <td><?php echo $fila["precio"] ?></td>
                     <td><?php echo $fila["codigo_fabricante"] ?></td>
-                    
+                    <td><a href="action/delateproducto.php?id=<?php echo $fila["codigo"] ?>"class="btn btn-danger">Eliminar</a></td>
+                    <td><a class="btn btn-warning">Editar</a></td>
                 </tr>
             <?php } //cierre del while?> 
             </tbody>
