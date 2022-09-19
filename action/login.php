@@ -14,7 +14,7 @@
 
     $respuesta = ''; // Comprobación
 
-    if(sizeof($fila) > 0 && $fila["email"] = $phpEmail){
+    if(($fila) > 0 && $fila["email"] = $phpEmail){
         if($fila["password"] = $phpPassword){
             $respuesta = 1;
         }else{
